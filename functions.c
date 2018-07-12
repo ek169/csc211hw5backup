@@ -85,7 +85,6 @@ int v_sorted(const char *A)
   || (A[0] == 'u'))
   {
     printf("vow is: %c\n", A[0]);
-
     int v = v_sorted(&A[1]);
     if(v == 1)
     {
@@ -95,7 +94,6 @@ int v_sorted(const char *A)
     {
       return 1;
     }
-    return A[0] < v_sorted(&A[1]);
   }
   return v_sorted(&A[1]);
 }
@@ -113,6 +111,7 @@ int palindrome(const char *S, unsigned int n)
 
 int order(const int *A, unsigned int n)
 {
+  //printf("a[n-1]: %d, a[n-2]: %d\n", A[n-1], A[n-2]);
   int dig;
   if(n <= 1)
   {
@@ -151,28 +150,23 @@ void print_reversed_letters(const char *str)
 }
 
 int binary_search(const int *A, unsigned int n, int k)
+{
+  if(n >= 1)
   {
-  if(A[n/2] == k)
-  {
-    return 1;
-  }
-  if(n < 1)
-  {
-    return 0;
-  }
-  if(k < A[n/2])
-  {
-    return binary_search(A, (n/2), k);
-  }
-  else if (k > A[n/2])
-  {
-    return binary_search(&A[(n/2)+1], (n/2), k);
-  }
-  else
-  {
-    if(k == A[n/2])
+    if(k < A[n/2])
     {
-      return 1;
+      return binary_search(A, (n/2), k);
+    }
+    else if (k > A[n/2])
+    {
+      return binary_search(&A[(n/2)+1], (n/2) + ((n%2==1) ? 1 : 0), k);
+    }
+    else
+    {
+      if(k == A[n/2])
+      {
+        return 1;
+      }
     }
   }
   return 0;
@@ -203,41 +197,53 @@ void draw_triangle(unsigned int a, unsigned int b, unsigned int c)
   }
 }
 
+void reverse_word(char *str, int index)
+{
+  int start;
+  for(start = index; ((str[start] != '\0') || (str[start] != ' ') || (start >= 0)); start--);
+  reverse(str, index - start);
+}
+
 unsigned int reverse_words(char *str, unsigned int idx)
 {
   char this_char = str[idx];
+  //printf("%c\n", this_char);
   if(this_char != '\0')
   {
-    int index;
+    int index = 0;
     if(this_char >= 'A' && this_char <= 'Z')
     {
       index = reverse_words(++str, ++idx);
-      str[index-idx] = (this_char - 'A') + 'a';
+      str[index] = (this_char - 'A') + 'a';
     }
     else if ((this_char >= '0') && (this_char <= '9'))
     {
       index = reverse_words(++str, ++idx);
-      str[index-idx] = this_char;
+      str[index] = this_char;
     }
     else if ((this_char >= 'a') && (this_char <= 'z'))
     {
+      //printf("in here\n");
       index = reverse_words(++str, ++idx);
-      str[index - idx] = this_char;
+      str[index] = this_char;
     }
     else if (this_char == ' ')
     {
       index = reverse_words(++str, ++idx);
+      str[index] = this_char;
+      reverse_word(str, index);
     }
     else
     {
+      //printf("improperly here\n");
       return reverse_words(++str, idx);
     }
-    return index;
+    return index + 1;
   }
   else
   {
     str[idx] = '\0';
-    return idx + 1;
+    return idx;
   }
 }
 
