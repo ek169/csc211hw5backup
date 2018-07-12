@@ -26,7 +26,7 @@ int main(void)
   printf("11 == %d\n", len(s2));
   printf("~~~~~~~~~~~~~~~~~~~~~~~~\n");
 */
-
+/*
   printf("~~~~~~ v Sorted Test ~~~~~~\n");
   char s3[] = "aeiou";
   char s4[] = "oea";
@@ -38,18 +38,18 @@ int main(void)
   printf("s5: %d\n", v_sorted(s5));
 
   printf("~~~~~~~~~~~~~~~~~~~~~~~~\n");
+*/
 
 
-
-
+/*
   printf("~~~~~~ order Test ~~~~~~\n");
   int xyz[2] = {1, 1};
   int xyz1[6] = {-4, -2, 0, 1, 19, 200};
-  int xyz2[7] = {5, 4, 0, -100, -200, -300};
+  int xyz2[6] = {5, 4, 0, -100, -200, -300};
   int xyz3[6] = {0, 0, 0, 0, 0, 0};
   int xyz5[7] = {-1, -1, -1, 0, 0, 0, 0};
   int xyz6[2] = {-1000000, 500};
-  int xyz7[8] = {1, 0, 1, 0, 1, 0, 1, 0};
+  int xyz7[8] = {9, 8, 7, 6, 5, 4, 3, 2};
   int xyz8[4] = {-99999, -88888, -77777, -5555};
 
 
@@ -57,13 +57,13 @@ int main(void)
 
   printf("0 == %d\n", order(xyz, 2));
   printf("1 == %d\n", order(xyz1, 6));
-  printf("-1 == %d\n", order(xyz2, 7));
+  printf("-1 == %d\n", order(xyz2, 6));
   printf("0 == %d\n", order(xyz3, 6));
   printf("0 == %d\n", order(xyz5, 7));
   printf("1 == %d\n", order(xyz6, 2));
-  printf("0 == %d\n", order(xyz7, 8));
+  printf("-1 == %d\n", order(xyz7, 8));
   printf("1 == %d\n", order(xyz8, 4));
-
+*/
 
 
 
@@ -74,8 +74,20 @@ int main(void)
 
   printf("~~~~~~ Reverse Words ~~~~~~\n");
   char wrds1[] = "racecar yes";
-  printf("length: %d\n", reverse_words(wrds1, 0));
-  printf("string: %s\n", wrds1);
+  char wrds2[] = "I think therefore I am";
+  char wrds3[] = "Programmers are tools for converting caffeine into code";
+  char wrds4[] = "No   matter  where   you go,there you    are.";
+  //printf("string: %s\n", wrds1);
+  //printf("length: %d\n", reverse_words(wrds1, 0));
+  //printf("length: %d\n", reverse_words(wrds2, 0));
+  printf("length: %d\n", reverse_words(wrds3, 0));
+  //printf("length:%d\n", reverse_words(wrds4, 0));
+
+  //printf("string: %s\n", wrds1);
+  //printf("string: %s\n", wrds2);
+  printf("string: %s\n", wrds3);
+  //printf("string:%s\n", wrds4);
+
   printf("~~~~~~~~~~~~~~~~~~~~~~~~\n");
 
 

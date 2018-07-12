@@ -81,19 +81,10 @@ int v_sorted(const char *A)
   {
     return 1;
   }
-  if((A[0] == 'a') || (A[0] == 'e') || (A[0] == 'i') || (A[0] == 'o')
-  || (A[0] == 'u'))
+  if(A[0] == 'a' || A[0] == 'e' || A[0] == 'i' || A[0] == 'o' || A[0] == 'u')
   {
-    printf("vow is: %c\n", A[0]);
-    int v = v_sorted(&A[1]);
-    if(v == 1)
-    {
-      return A[0];
-    }
-    else
-    {
-      return 1;
-    }
+    return A[0] < v_sorted(&A[1]);;
+    return A[0];
   }
   return v_sorted(&A[1]);
 }
@@ -111,19 +102,45 @@ int palindrome(const char *S, unsigned int n)
 
 int order(const int *A, unsigned int n)
 {
-  //printf("a[n-1]: %d, a[n-2]: %d\n", A[n-1], A[n-2]);
-  int dig;
   if(n <= 1)
   {
-    return 0;
+    return 1;
   }
-  if(n > 2)
+
+  if(n == 2)
   {
-    dig = order(A, --n);
-    return (dig == ((A[n-1] > A[n-2]) ? 1 : ((A[n-1] < A[n-2]) ? -1 : 0)) ? dig : 0);
+    return (A[n-2] < A[n-1]) ? 1 : ((A[n-2] > A[n-1]) ? -1 : 0);
   }
-  return ((A[n-1] > A[n-2]) ? 1 : ((A[n-1] < A[n-2]) ? -1 : 0));
+
+  if(A[n-2] < A[n-1])
+  {
+    return (1 == order(A, --n)) ? 1 : 0;
+  }
+  else if(A[n-2] > A[n-1])
+  {
+    return (-1 == order(A, --n)) ? -1 : 0;
+  }
+  else
+  {
+    return (0 == order(A, --n)) ? 0 : 0;
+  }
+
+
 }
+
+/*int dig;
+if(n <= 1)
+{
+  return 0;
+}
+if(n > 2)
+{
+  dig = order(A, --n);
+  //printf("a[n-1]: %d, a[n-2]: %d\n", A[n-1], A[n-2]);
+  return (dig == ((A[n-1] > A[n-2]) ? 1 : ((A[n-1] < A[n-2]) ? -1 : 0)) ? dig : 0);
+}
+//printf("a[n-1]: %d, a[n-2]: %d\n", A[n-1], A[n-2]);
+return ((A[n-1] > A[n-2]) ? 1 : ((A[n-1] < A[n-2]) ? -1 : 0));*/
 
 void reverse(char *str, unsigned int len)
 {
@@ -197,55 +214,130 @@ void draw_triangle(unsigned int a, unsigned int b, unsigned int c)
   }
 }
 
-void reverse_word(char *str, int index)
+void removeSpaces(char *str)
 {
-  int start;
-  for(start = index; ((str[start] != '\0') || (str[start] != ' ') || (start >= 0)); start--);
-  reverse(str, index - start);
+  int len = strlen(str);
+  for(int i = 1; i < len; i++)
+  {
+    if(str[i] == 32 && str[i-1] == 32)
+    {
+      str[i] = '\0';
+    }
+  }
+}
+
+void reverse2(char *str, int ind)
+{
+  int len = ind;
+  for(;((str[len] != ' ') && (str[len] != '\0') && (len > 0)); len--);
+  if(str[len] == ' ' || str[len] == '\0')
+  {
+    len++;
+  }
+  while(len < ind)
+  {
+    char temp = str[len];
+    str[len] = str[ind];
+    str[ind] = temp;
+    len++;
+    ind--;
+  }
+  return;
+}
+
+void purge(char *s)
+{
+  int len = strlen(s);
+  for(int i = 0; i < len-1; i++)
+  {
+    if(s[i] == ' ' && s[i+1] ==  ' ')
+    {
+      s[i] = '\0';
+    }
+  }
+}
+
+void reverse3(char *start, char *finish)
+{
+  char temp;
+  while (start < finish)
+  {
+    temp = *start;
+    *start++ = *finish;
+    *finish-- = temp;
+  }
 }
 
 unsigned int reverse_words(char *str, unsigned int idx)
 {
-  char this_char = str[idx];
-  //printf("%c\n", this_char);
-  if(this_char != '\0')
+ if(str[idx])
+ {
+   if (str[idx] == '\0')
+   {
+     reverse3(&str[idx+1], &str[idx-1]);
+   }
+   else if(str[idx] == ' ')
+   {
+     reverse3(&str[idx+1], &str[idx-1]);
+   }
+   return reverse_words(str, idx + 1);
+ }
+
+
+ return idx;
+}
+
+/*
+int index = 0;
+char this_char = str[idx];
+if(this_char != '\0')
+{
+  if((this_char >= 'A') && (this_char <= 'Z'))
   {
-    int index = 0;
-    if(this_char >= 'A' && this_char <= 'Z')
-    {
-      index = reverse_words(++str, ++idx);
-      str[index] = (this_char - 'A') + 'a';
-    }
-    else if ((this_char >= '0') && (this_char <= '9'))
-    {
-      index = reverse_words(++str, ++idx);
-      str[index] = this_char;
-    }
-    else if ((this_char >= 'a') && (this_char <= 'z'))
-    {
-      //printf("in here\n");
-      index = reverse_words(++str, ++idx);
-      str[index] = this_char;
-    }
-    else if (this_char == ' ')
-    {
-      index = reverse_words(++str, ++idx);
-      str[index] = this_char;
-      reverse_word(str, index);
-    }
-    else
-    {
-      //printf("improperly here\n");
-      return reverse_words(++str, idx);
-    }
-    return index + 1;
+    index = reverse_words(str, ++idx);
+    str[index] = this_char - 'A' + 'a';
+    str[index+1] = '\0';
+  }
+  else if ((this_char >= '0') && (this_char <= '9'))
+  {
+    index = reverse_words(str, ++idx);
+    str[index] = this_char;
+    str[index+1] = '\0';
+  }
+  else if ((this_char >= 'a') && (this_char <= 'z'))
+  {
+    index = reverse_words(str, ++idx);
+    str[index] = this_char;
+    str[index+1] = '\0';
+
+  }
+  else if (this_char || str[index+1] == '\0')
+  {
+      index = reverse_words(str, ++idx);
+      if(str[index-1] != 32)
+      {
+        str[index] = ' ';
+        str[index+1] = '\0';
+        reverse2(str, index-1);
+      }
+
   }
   else
   {
-    str[idx] = '\0';
-    return idx;
+    //printf("improperly here\n");
   }
+  printf("index %d == 55\n", index);
+  if(str[index] == '\0')
+  {
+    reverse2(str, index);
+  }
+  return index + 1;
 }
+else
+{
+  str[idx] = '\0';
+  return 0;
+}*/
 
 void print_pattern(unsigned int len, unsigned int col)
 {
