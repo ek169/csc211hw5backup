@@ -31,7 +31,7 @@ int main(void)
   printf("35 == %lu\n", suffix_sum(35, 1));
   printf("0 == %lu\n", suffix_sum(19, 0));
   printf("~~~~~~~~~~~~~~~~~~~~~~~~\n");
-
+/*
   printf("~~~~~~ Sum Digits Test ~~~~~~\n");
   printf("6 == %u\n", sum_digits(524));
   printf("2 == %u\n", sum_digits(12));
@@ -54,7 +54,7 @@ int main(void)
   printf("~~~~~~~~~~~~~~~~~~~~~~~~\n");
 
   printf("~~~~~~ v Sorted Test ~~~~~~\n");
-  char s3[] = "abcdef";
+  char s3[] = "aeiou";
   char s4[] = "oea";
   char s5[] = "bbbbbbb";
 
@@ -64,6 +64,40 @@ int main(void)
   printf("s5: %d\n", v_sorted(s5));
 
   printf("~~~~~~~~~~~~~~~~~~~~~~~~\n");
+
+*/
+  printf("~~~~~~ Reverse Test ~~~~~~\n");
+  char s6[] = "hello";
+  reverse(s6, 5);
+  printf("%s\n", s6);
+  printf("~~~~~~~~~~~~~~~~~~~~~~~~\n");
+
+  printf("~~~~~~ binary_search Test ~~~~~~\n");
+  int narr0[5] = {1, 4, 7, 9, 12};
+  int narr00[1] = {0};
+  int narr000[6] = {-10, 0, 15, 100, 129};
+  int narr0000[8] = {-14, -9, -6, 1, 12, 14, 94, 105};
+
+  printf("1 == %d\n", binary_search(narr0, 5, 12));
+  printf("1 == %d\n", binary_search(narr00, 1, 0));
+  printf("1 == %d\n", binary_search(narr000, 6, -10));
+  printf("1 == %d\n", binary_search(narr0000, 8, -14));
+  printf("~~~~~~~~~~~~~~~~~~~~~~~~\n");
+
+
+  printf("~~~~~~ order Test ~~~~~~\n");
+  int xyz[2] = {1, 1};
+  int xyz1[6] = {-4, -2, 0, 1, 19, 200};
+  int xyz2[7] = {5, 4, 0, -100, -200, -300};
+
+
+  printf("0 == %d\n", order(xyz, 2));
+  printf("1 == %d\n", order(xyz1, 6));
+  printf("-1 == %d\n", order(xyz2, 7));
+
+  printf("~~~~~~~~~~~~~~~~~~~~~~~~\n");
+
+
 
 
 }

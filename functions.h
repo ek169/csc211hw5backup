@@ -6,3 +6,6 @@ int find_min(int* arr, int n);
 int len(char* S);
 int v_sorted(const char *A);
 unsigned int reverse_words(char *str, unsigned int idx);
+void reverse(char *str, unsigned int len);
+int binary_search(const int *A, unsigned int n, int k);
+int order(const int *A, unsigned int n);

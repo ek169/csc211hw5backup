@@ -24,17 +24,12 @@ unsigned long int prefix_sum(unsigned int n)
 
 unsigned long int suffix_sum(unsigned int n, unsigned int s)
 {
-  if(((n >= 1)&& (n <= 10000)) && ((s >= 1) && (s <= n)))
+  if(((n >= 1)) && ((s >= 1) && (s <= n)))
   {
     s--;
     if(s > 0)
-    {
-      return n + suffix_sum(n - 1, s);
-    }
-    else
-    {
-      return n;
-    }
+    return (n - s) + suffix_sum(n, s);
+    return n;
   }
   return 0;
 }
@@ -89,14 +84,17 @@ int v_sorted(const char *A)
   if((A[0] == 'a') || (A[0] == 'e') || (A[0] == 'i') || (A[0] == 'o')
   || (A[0] == 'u'))
   {
+    printf("vow is: %c\n", A[0]);
 
     int v = v_sorted(&A[1]);
     if(v == 1)
     {
-      printf("v is a consanent, vow is: %c\n", A[0]);
       return A[0];
     }
-    printf("vow is: %c\n", A[0]);
+    else
+    {
+      return 1;
+    }
     return A[0] < v_sorted(&A[1]);
   }
   return v_sorted(&A[1]);
@@ -104,9 +102,11 @@ int v_sorted(const char *A)
 
 int palindrome(const char *S, unsigned int n)
 {
+  int len;
+  for(len = 0; S[len] != '\0'; len++);
   if(n>0)
   {
-    return (S[strlen(S) - n] == S[n-1]) && palindrome(S, --n);
+    return (S[len - n] == S[n-1]) && palindrome(S, --n);
   }
   return 1;
 }
@@ -114,63 +114,63 @@ int palindrome(const char *S, unsigned int n)
 int order(const int *A, unsigned int n)
 {
   int dig;
+  if(n <= 1)
+  {
+    return 0;
+  }
   if(n > 2)
   {
     dig = order(A, --n);
-    return (dig ==((A[n-1] > A[n-2]) ? 1 : ((A[n-1] < A[n-2]) ? -1 : 0)) ? dig : 0);
+    return (dig == ((A[n-1] > A[n-2]) ? 1 : ((A[n-1] < A[n-2]) ? -1 : 0)) ? dig : 0);
   }
-  return ((A[n] > A[n-1]) ? 1 : ((A[n] < A[n-1]) ? -1 : 0));
+  return ((A[n-1] > A[n-2]) ? 1 : ((A[n-1] < A[n-2]) ? -1 : 0));
 }
 
 void reverse(char *str, unsigned int len)
 {
+
   int fl_len = strlen(str);
-  if(len > (fl_len /2))
+  if(len > (fl_len / 2))
   {
     char temp = str[fl_len - len];
     str[fl_len - len] = str[len - 1];
     str[len-1] = temp;
     reverse(str, --len);
   }
+  return;
 }
 
 void print_reversed_letters(const char *str)
 {
-  int len = strlen(str);
-  if((str[len-1] >= 'A') && (str[len-1] <= 'Z'))
+  if(str[0] != '\0')
   {
-    printf("%c", 'a' + str[len-1] - 'A');
-  }
-  if((str[len-1] >= 'a') && (str[len-1] <= 'z'))
-  {
-    printf("%c", str[len-1]);
-  }
-  if(len > 0)
-  {
-    char new_str[len];
-    strcpy(new_str, str);
-    new_str[len-1] = '\0';
-    print_reversed_letters(new_str);
+    print_reversed_letters(&str[1]);
+    if((str[0] >= 'a') && (str[0] <= 'z'))
+    printf("%c", str[0]);
   }
 }
 
 int binary_search(const int *A, unsigned int n, int k)
   {
+  if(A[n/2] == k)
+  {
+    return 1;
+  }
   if(n < 1)
   {
-  return 0;
+    return 0;
   }
   if(k < A[n/2])
   {
-    binary_search(&A[n/2], (n/2)-1, k);
+    return binary_search(A, (n/2), k);
   }
   else if (k > A[n/2])
   {
-    binary_search(&A[n/2], (n/2)+1, k);
+    return binary_search(&A[(n/2)+1], (n/2), k);
   }
   else
   {
-    if(k==A[n/2])
+    if(k == A[n/2])
     {
       return 1;
     }
@@ -205,5 +205,43 @@ void draw_triangle(unsigned int a, unsigned int b, unsigned int c)
 
 unsigned int reverse_words(char *str, unsigned int idx)
 {
+  char this_char = str[idx];
+  if(this_char != '\0')
+  {
+    int index;
+    if(this_char >= 'A' && this_char <= 'Z')
+    {
+      index = reverse_words(++str, ++idx);
+      str[index-idx] = (this_char - 'A') + 'a';
+    }
+    else if ((this_char >= '0') && (this_char <= '9'))
+    {
+      index = reverse_words(++str, ++idx);
+      str[index-idx] = this_char;
+    }
+    else if ((this_char >= 'a') && (this_char <= 'z'))
+    {
+      index = reverse_words(++str, ++idx);
+      str[index - idx] = this_char;
+    }
+    else if (this_char == ' ')
+    {
+      index = reverse_words(++str, ++idx);
+    }
+    else
+    {
+      return reverse_words(++str, idx);
+    }
+    return index;
+  }
+  else
+  {
+    str[idx] = '\0';
+    return idx + 1;
+  }
+}
 
+void print_pattern(unsigned int len, unsigned int col)
+{
+  return;
 }
